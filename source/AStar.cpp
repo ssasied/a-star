@@ -89,7 +89,10 @@ AStar::CoordinateList AStar::Generator::findPath(Vec2i source_, Vec2i target_)
         }
 
         closedSet.push_back(current);
-        openSet.erase(current_it);
+        /// removes the use of .erase() which isn't necessary and takes more time        
+        *current_it = std::move(openSet.back());
+        openSet.pop_back();
+       
 
         for (uint i = 0; i < directions; ++i) {
             Vec2i newCoordinates(current->coordinates + direction[i]);
